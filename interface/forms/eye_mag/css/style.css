@@ -329,7 +329,7 @@ input[type=text] {
     min-height:2.2in;
     margin: 1px auto;
     font-size: 1.0em;
-    max-width:90%;
+    max-width:85%;
     padding:0;
 }
 .refraction_wide {
@@ -671,7 +671,7 @@ textarea.ANTSEGTEXT {
     width: 2in;
     height: 16px;
 }
-.button {
+input[type="button"] {
     background-color: #E3E1B8;
     padding: 2px 4px;
     text-decoration: none;
@@ -773,7 +773,6 @@ button {
 .tools  {
     border: 0 solid black;
     height: 50px;
-    width: 50px;
     line-height: 30px;
     padding: 10px;
     vertical-align: middle;
@@ -782,7 +781,7 @@ button {
     color: black;
     font-weight: bold;
     margin-bottom: -3px;
-width:100%;
+	width:100%;
 }
 
 .tools div {
@@ -1019,11 +1018,9 @@ textarea.EXTTEXT {
 .wide_textarea {
     position:absolute;
     width:96%;
-    top:0.4in;
     left:0.1in;
     text-align:center;
     margin: 0 auto;
-    padding: 10px;
 }
 .wide_textarea textarea{
     width:2.1in;
@@ -1050,7 +1047,6 @@ textarea.EXTTEXT {
 }
 .narrow_textarea {
     position:absolute;
-    top:0.4in;
     left:0.1in;
     width:3.5in;
     padding: 15px 10px 15px 5px;
@@ -1383,12 +1379,16 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 
 .PRIORS_color {
     background-color: #CCF;
-
 }
 
 .PRIORS textarea, input {
     background-color: #CCCCFF;
     color: black;
+}
+#PRIOR_ALL {
+    color: black;
+    padding:0 0;
+    font-size:1.2em;
 }
 .PRIORS a {
     text-decoration: none;
@@ -1733,7 +1733,7 @@ View.php
 #HPIPMH_sections { display:inline-block;margin: 10px auto;text-align:center; }
 #HPI_left_text { height: 315px;text-align:left;}
 #tabs_container { z-index:3;margin-top:5px;}
-#title_bar { width:80%;display:inline-block;font-size:0.9em;}
+#title_bar { width:80%;font-size:0.9em;}
 #tab1_CC_text > table { min-height: 2.0in;text-align:left;}
 .pad10 { padding:10px;}
 #CC1 { height:53px;}
@@ -1838,7 +1838,7 @@ View.php
 .pupil_dim_comments { position:absolute;  top: 0.2in; left: 1.1in; border: none;padding: auto;}
 #PUPIL_COMMENTS { height:0.50in;width:0.8in;font-size:0.8em; }
 #LayerVision_IOP { display:inline-block;text-align:left;width:83%;max-width: 1000px;}
-#LayerVision2 { display:inline-block;text-align:center;width:100%;}
+#LayerVision2 { display:inline-block;text-align:center;width:100%;margin-left: 18px;}
 #Add_Glasses { font-size:0.7em;margin-left:30px;background:#C9DBF2;}
 #wearing_1,#wearing_2,#wearing_3,#wearing_4 { width:100%;}
 td[name=W_wide2] { text-align:left;vertical-align:top;padding-left:20px;}
@@ -2021,4 +2021,7 @@ div[name=prior_selector] { position:absolute;top:0.083in;right:0.241in;}
     font-size:0.8em;
     width: 75px;
     height: 16px;
+}
+.pharma {
+    max-width:350px;
 }

@@ -488,10 +488,8 @@ if ($_REQUEST["mode"] == "new") {
                                                    onclick=\"top . restoreSession(); create_task('" . attr($_REQUEST['pcp']) . "','Fax-resend','ref'); return false;\"></i>
                                             </span>";
             } else {
-                $DOCS['pcp']['fax_info'] = '
-                <a href="#" onclick="top.restoreSession(); create_task(\'' . attr($_REQUEST['pcp']) . '\',\'Fax\',\'pcp\'); return false;">
-                    ' . text($DOC1['fax']) . '&nbsp;&nbsp;
-                    <span id="status_Fax_pcp"><i class="fa fa-fax fa-fw"></i></span>
+                $DOCS['pcp']['fax_info'] = '<a href="#" onclick="top.restoreSession(); create_task(\'' . attr($_REQUEST['pcp']) . '\',\'Fax\',\'pcp\'); return false;">
+                    &nbsp;&nbsp;<span id="status_Fax_pcp"><i class="fa fa-fax fa-fw"></i> Send Fax</span>
                 </a>';
             }
         }
@@ -515,7 +513,7 @@ if ($_REQUEST["mode"] == "new") {
             $query = "SELECT * FROM form_taskman WHERE TO_ID=? AND PATIENT_ID=? AND ENC_ID=?";
             $FAX_REF = sqlQuery($query, array($_REQUEST['rDOC'], $pid, $encounter));
             if ($FAX_REF['ID'] > '') { //it is here already, make them print and manually fax it.  Show icon
-                $DOCS['ref']['fax_info'] = text($DOC2['fax']) . "&nbsp;&nbsp;
+                $DOCS['ref']['fax_info'] = "&nbsp;&nbsp;
                                             <span id='status_Fax_ref'>
                                                 <a href='" . $webroot . "/controller.php?document&view&patient_id=" . $pid . "&doc_id=" . $FAX_REF['DOC_ID'] . "'
                                                     target='_blank' title='" . xla('View the Summary Report sent via Fax Server on') . " " . $FAX_REF['COMPLETED_DATE'] . ".'>
@@ -529,8 +527,7 @@ if ($_REQUEST["mode"] == "new") {
             } else {
                 $DOCS['ref']['fax_info'] = '
                 <a href="#" onclick="top.restoreSession(); create_task(\'' . attr($_REQUEST['rDOC']) . '\',\'Fax\',\'ref\'); return false;">
-                    ' . text($DOC2['fax']) . '&nbsp;&nbsp;
-                    <span id="status_Fax_ref"><i class="fa fa-fax fa-fw"></i></span>
+                    &nbsp;&nbsp;<span id="status_Fax_ref"><i class="fa fa-fax fa-fw"></i> Send Fax</span>
                 </a>';
             }
         }
