@@ -163,14 +163,14 @@ function priors_select($zone, $orig_id, $id_to_show, $pid, $type = 'text')
     }
 
     $output_return .= '
-        <span onclick=\'$("#PRIOR_'.attr($zone).'").val("'.attr($priors[$i][id]).'").trigger("change");\'
+        <span onclick=\'$("#PRIOR_'.attr($zone).'").val("'.attr($priors[$i]['id']).'").trigger("change");\'
                 id="PRIORS_'.attr($zone).'_earliest"
                 name="PRIORS_'.attr($zone).'_earliest"
                 class="fa fa-fast-backward fa-sm PRIORS"
                 title="'.attr($zone).': '.attr($priors[$i]['encounter_date']).'">
         </span>
         &nbsp;
-        <span onclick=\'$("#PRIOR_'.attr($zone).'").val("'.attr($priors[$earlier][id]).'").trigger("change");\'
+        <span onclick=\'$("#PRIOR_'.attr($zone).'").val("'.attr($priors[$earlier]['id']).'").trigger("change");\'
                 id="PRIORS_'.attr($zone).'_minus_one"
                 name="PRIORS_'.attr($zone).'_minus_one"
                 class="fa fa-step-backward fa-sm PRIORS"
@@ -178,18 +178,17 @@ function priors_select($zone, $orig_id, $id_to_show, $pid, $type = 'text')
         </span>&nbsp;&nbsp;
         <select name="PRIOR_'.attr($zone).'"
                 id="PRIOR_'.attr($zone).'"
-                style="padding:0 0;font-size:1.2em;"
                 class="PRIORS">
                 '.$output.'
         </select>
                   &nbsp;
-        <span onclick=\'$("#PRIOR_'.attr($zone).'").val("'.attr($priors[$later][id]).'").trigger("change");\'
+        <span onclick=\'$("#PRIOR_'.attr($zone).'").val("'.attr($priors[$later]['id']).'").trigger("change");\'
                 id="PRIORS_'.attr($zone).'_plus_one"
                 name="PRIORS_'.attr($zone).'_plus_one"
                 class="fa  fa-step-forward PRIORS"
                 title="'.attr($zone).': '.attr($priors[$later]['encounter_date']).'">
         </span>&nbsp;&nbsp;
-        <span onclick=\'$("#PRIOR_'.attr($zone).'").val("'.attr($priors[0][id]).'").trigger("change");\'
+        <span onclick=\'$("#PRIOR_'.attr($zone).'").val("'.attr($priors[0]['id']).'").trigger("change");\'
                 id="PRIORS_'.attr($zone).'_latest"
                 name="PRIORS_'.attr($zone).'_latest"
                 class="fa  fa-fast-forward PRIORS"
@@ -2365,7 +2364,7 @@ function display_PMSFH($rows, $view = "pending", $min_height = "min-height:344px
  *  @param array $PMSFH
  *  @return $right_panel html
  */
-function show_PMSFH_panel($PMSFH, $columns = '1')
+function show_PMSFH_panel($PMSFH, $columns = '2')
 {
     global $pcp_data;
     global $ref_data;
@@ -2996,7 +2995,7 @@ function canvas_select($zone, $encounter, $pid)
     $side="OU";
     $type_name = $side."_".$zone."_VIEW";
     $canvi=[];
-    if (!empty($documents['zones'][$zone])) {
+    if (is_array($documents['docs_in_name']['Drawings'])) {
         foreach ($documents['docs_in_name']['Drawings'] as $doc) {
             if (!preg_match("/" . $zone . "_VIEW/", $doc['url'])) {
                 continue;
@@ -3187,8 +3186,8 @@ function copy_forward($zone, $copy_from, $copy_to, $pid)
     global $form_id;
 
     $query = "select  *,form_encounter.date as encounter_date
-
-               from forms,form_encounter,form_eye_base,
+              
+               from forms,form_encounter,form_eye_base, 
                 form_eye_hpi,form_eye_ros,form_eye_vitals,
                 form_eye_acuity,form_eye_refraction,form_eye_biometrics,
                 form_eye_external,form_eye_antseg,form_eye_postseg,
@@ -3969,7 +3968,7 @@ function menu_overhaul_left($pid, $encounter)
         list($documents) = document_engine($pid);
     }
     ?>
-    <div class="borderShadow" id="title_bar">
+    <div class="borderShadow row" id="title_bar">
         <div id="left_menu" name="left_menu" class="col-md-4">
             <div style="padding-left: 18px;">
                 <table style="text-align:left;">
@@ -4179,7 +4178,7 @@ function report_header($pid, $direction = 'shell')
                 <td>
                 <em style="font-weight:bold;font-size:1.4em;"><?php echo text($titleres['fname']) . " " . text($titleres['lname']); ?></em><br />
                 <b style="font-weight:bold;"><?php echo xlt('DOB'); ?>:</b> <?php echo text($DOB); ?><br />
-                <b style="font-weight:bold;"><?php echo xlt('Generated on'); ?>:</b> <?php echo text(oeFormatShortDate()); ?><br />
+                <b style="font-weight:bold;"><?php echo xlt('Generated on'); ?>:</b> <?php echo text(oeFormatShortDate($visit_date)); ?><br />
                 <b><?php echo xlt('Visit Date'); ?>:</b> <?php echo oeFormatSDFT(strtotime($visit_date)); ?><br />
                 <b><?php echo xlt('Provider') . ':</b> ' . text(getProviderName(getProviderIdOfEncounter($encounter))).'<br />'; ?>
 
@@ -4439,7 +4438,7 @@ function start_your_engines($FIELDS)
                                         //does this code already exist for the other eye (right eye is always first)?
                                         //if so, change OD to OU and skip adding this code.
                                         //or is there a code for both eyes?
-                                        if ($side1=="OS") {
+                                        if ($side1=="OS" && is_array($codes_found[$sub_term])) {
                                             $count='0';
                                             for ($i=0; $i < count($codes_found[$sub_term]); $i++) {
                                                 $swap="OD";
@@ -5122,8 +5121,8 @@ function display_GlaucomaFlowSheet($pid, $bywhat = 'byday')
                                 $GONIO_chart .= ',';
                             }
                         }
-                        if (!empty($GONIO)) {
-                            $GONIO = chop($GONIO, ",");
+                        if (!empty($GONIO_values)) {
+                            $GONIO_values = chop($GONIO_values, ",");
                         }
                         if ($count ==0) {
                             $gonios = "<tr><td colspan='3' class='GFS_td_1' style='text-align:center;'>".xlt('Not documented')."</td></tr>";

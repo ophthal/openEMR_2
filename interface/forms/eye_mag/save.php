@@ -482,13 +482,14 @@ if ($_REQUEST["mode"] == "new") {
                                                     target='_blank' title='" . xla('View the Summary Report sent via Fax Server on') . " " . $FAX_PCP['COMPLETED_DATE'] . ".'>
                                                     <i class='fa fa-file-pdf-o fa-fw'></i>
                                                 </a>
-                                                <i class='fa fa-repeat fa-fw' onclick=\"top . restoreSession(); create_task('" . attr($_REQUEST['pcp']) . "','Fax-resend','ref'); return false;\"></i>
+                                                <i class='fa fa-repeat fa-fw'
+                                                   title=\"".xla('Resend the original Fax.
+                                                                            If you made any changes to this record, delete the PDF from documents, then resend it.')."\"
+                                                   onclick=\"top . restoreSession(); create_task('" . attr($_REQUEST['pcp']) . "','Fax-resend','ref'); return false;\"></i>
                                             </span>";
             } else {
-                $DOCS['pcp']['fax_info'] = '
-                <a href="#" onclick="top.restoreSession(); create_task(\'' . attr($_REQUEST['pcp']) . '\',\'Fax\',\'pcp\'); return false;">
-                    ' . text($DOC1['fax']) . '&nbsp;&nbsp;
-                    <span id="status_Fax_pcp"><i class="fa fa-fax fa-fw"></i></span>
+                $DOCS['pcp']['fax_info'] = '<a href="#" onclick="top.restoreSession(); create_task(\'' . attr($_REQUEST['pcp']) . '\',\'Fax\',\'pcp\'); return false;">
+                    &nbsp;&nbsp;<span id="status_Fax_pcp"><i class="fa fa-fax fa-fw"></i> Send Fax</span>
                 </a>';
             }
         }
@@ -512,19 +513,21 @@ if ($_REQUEST["mode"] == "new") {
             $query = "SELECT * FROM form_taskman WHERE TO_ID=? AND PATIENT_ID=? AND ENC_ID=?";
             $FAX_REF = sqlQuery($query, array($_REQUEST['rDOC'], $pid, $encounter));
             if ($FAX_REF['ID'] > '') { //it is here already, make them print and manually fax it.  Show icon
-                $DOCS['ref']['fax_info'] = text($DOC2['fax']) . "&nbsp;&nbsp;
+                $DOCS['ref']['fax_info'] = "&nbsp;&nbsp;
                                             <span id='status_Fax_ref'>
                                                 <a href='" . $webroot . "/controller.php?document&view&patient_id=" . $pid . "&doc_id=" . $FAX_REF['DOC_ID'] . "'
                                                     target='_blank' title='" . xla('View the Summary Report sent via Fax Server on') . " " . $FAX_REF['COMPLETED_DATE'] . ".'>
                                                     <i class='fa fa-file-pdf-o fa-fw'></i>
                                                 </a>
-                                                <i class='fa fa-repeat fa-fw' onclick=\"top . restoreSession(); create_task('" . attr($_REQUEST['rDOC']) . "','Fax-resend','ref'); return false;\"></i>
+                                                <i class='fa fa-repeat fa-fw'
+                                                    title=\"".xla('Resend the original Fax.
+                                                                            If you made any changes to this record, delete the PDF from documents, then resend it.')."\"
+                                                    onclick=\"top . restoreSession(); create_task('" . attr($_REQUEST['rDOC']) . "','Fax-resend','ref'); return false;\"></i>
                                             </span>";
             } else {
                 $DOCS['ref']['fax_info'] = '
                 <a href="#" onclick="top.restoreSession(); create_task(\'' . attr($_REQUEST['rDOC']) . '\',\'Fax\',\'ref\'); return false;">
-                    ' . text($DOC2['fax']) . '&nbsp;&nbsp;
-                    <span id="status_Fax_ref"><i class="fa fa-fax fa-fw"></i></span>
+                    &nbsp;&nbsp;<span id="status_Fax_ref"><i class="fa fa-fax fa-fw"></i> Send Fax</span>
                 </a>';
             }
         }
@@ -661,12 +664,13 @@ if ($_REQUEST["mode"] == "new") {
                  *  Check the PMSFH array first by title.
                  *  If not present in PMSFH, check the DB to be sure.
                  */
-                foreach ($PMSFH[$form_type] as $item) {
-                    if ($item['title'] == $_REQUEST['form_title']) {
-                        $issue = $item['issue'];
+                if (is_array($PMSFH[$form_type])) {
+                    foreach ($PMSFH[$form_type] as $item) {
+                        if ($item['title'] == $_REQUEST['form_title']) {
+                            $issue = $item['issue'];
+                        }
                     }
                 }
-
                 if (!$issue) {
                     if ($subtype == '') {
                         $query = "SELECT id,pid from lists where title=? and type=? and pid=?";

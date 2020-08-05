@@ -81,7 +81,7 @@ function process_kb(field,text,appendix,prior_field,prior_text) {
             // Human error correcting:
             //  If the field is not found, append the "field + text" data to the prior_field's prior_text if it exists.
             //  In essence the ";" is believed to be an error so it is replaced by ", " for most fields.
-            //  For POH/PMH/MEDS/ALLERGIES/PSURG it NOT appended but is instead added as a new entry to the list.
+            //  For POH/PMH/MEDS/ALLERGIES/PSURG it is NOT appended but is instead added as a new entry to the list.
             //  In essence the ";" is believed to be an error so it is replaced by "." for these fields.
             //  Otherwise processing stops and a lot of ensuing entries could be lost.
             //  We need this type of error correcting if we are to move to dictating shorthand.
@@ -424,7 +424,7 @@ function process_kb_1(field,text,appendix) {
             response['field'] = 'BB';
             response['prior_text'] = $('#RBROW').val();
             return response;
-        } else if ((field == 'BC')||(field=='C')) {
+        } else if ((field == 'BCONJ')||(field=='C')) {
             field = "ODCONJ";
             (appendix == ".a") ? ($('#'+field).val($('#'+field).val() +', '+text)) : $('#'+field).val(text);
             field = "OSCONJ";
@@ -514,14 +514,14 @@ function process_kb_1(field,text,appendix) {
             response['field'] = 'BD';
             response['prior_text'] = $('#OSDISC').val();
             return response;
-        } else if ((field == 'BC')||(field == 'C')||(field == 'BCUP')||(field == 'BCUPS')) {
+        } else if ((field == 'BC')||(field == 'BCUP')||(field == 'BCUPS')) {
             field = "ODCUP";
             (appendix == ".a") ? ($('#'+field).val($('#'+field).val() +', '+text)) : $('#'+field).val(text);
             field = "OSCUP";
             (appendix == ".a") ? ($('#'+field).val($('#'+field).val() +', '+text)) : $('#'+field).val(text);
             $('#ODCUP').css("background-color","#F0F8FF");
             $('#OSCUP').css("background-color","#F0F8FF");
-            response['field'] = 'C';
+            response['field'] = 'BC';
             response['prior_text'] = $('#OSCUP').val();
             return response;
         } else if ((field == 'BMAC')||(field == 'MAC')||(field=='BM')) {
@@ -554,7 +554,7 @@ function process_kb_1(field,text,appendix) {
             response['field'] = 'V';
             response['prior_text'] = $('#OSVITREOUS').val();
             return response;
-        } else if ((field == 'BP')||(field == 'P')) {
+        } else if ((field == 'BR')||(field == 'P')||(field == 'R')) {
             field = "ODPERIPH";
             (appendix == ".a") ? ($('#'+field).val($('#'+field).val() +', '+text)) : $('#'+field).val(text);
             field = "OSPERIPH";

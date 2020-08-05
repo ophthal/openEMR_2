@@ -184,11 +184,16 @@ if ($showit=='ext') {
                 <h3 class="ui-accordion-header external">Introduction: Paper vs. EHR</h3>
                 <div id="general" style="text-align:left;">
                     <blockquote class="style2">
-                        <b>"Documenting an exam on paper is faster because we develop our own shorthand."</b><br/>
-                        Starting with this "paper" shorthand, we forged an electronic Shorthand, specifically designed for rapid data entry.<br />
-                        Using Shorthand, all your findings are entered in one text box,
+                        <b>"Documenting an exam on paper is faster because we developed our own shorthand."</b><br/>
+                        Perhaps like every specialty, ophthalmology and optometry developed a standard, shorthand method for documenting exam findings.
+                        It allowed for rapid charting on paper that could be interpreted by any other eye doctor, pretty much anywhere...
+                        <i>It was like macros, before the word processor!</i>
+                        So why can't we do that now!  Well you can.<br /><br />
+                        OpenEMR contains an <b>AI engine</b> that utilizes ophthalmic shorthand for rapid data entry and processing.<br />
+                        Using AI Shorthand, all your findings are entered in one text box,
                         and OpenEMR automatically knows how to store them.<br /><br />
-                        The structure is simple: <b>Field:text;Field:text;Field:text</b><br /><br />
+                        The structure is simple: type the clinical area abbreviation (<b>field</b>), add a colon(<b>:</b>), then type in your findings(<b>text</b>).<br />
+                        <b>Field:text;Field:text;Field:text</b><br /><br />
                         Click on any <b>Shorthand</b> icon <i class="fa fa-user-md fa-sm fa-2" name="Shorthand_kb" title="Open the Shorthand Window and display Shorthand Codes"></i> in the Eye Form and two things occur:<br />
                         <ol>
                             <li> The Shorthand <b>textbox</b> opens </li>
@@ -792,13 +797,13 @@ Choly 2010.Lap Band 2014.;All:sulfa - hives.PCN - SOB;</textarea>
                                         <td>ccDIST is selected for ensuing values.</td>
                                     </tr><tr>
                                         <td>Without correction at Near</td><td>scNear</td>
-                                        <td><b style="color:red;">scdist</b><b style="color:green;">;</a></td>
-                                        <td>scDIST is selected for ensuing values.</td>
+                                        <td><b style="color:red;">scNear</b><b style="color:green;">;</a></td>
+                                        <td>scNear is selected for ensuing values.</td>
                                     </tr>
                                     <tr>
                                         <td>With correction at Near</td><td>scNear</td>
-                                        <td><b style="color:red;">scdist</b><b style="color:green;">;</a></td>
-                                        <td>scDIST is selected for ensuing values.</td>
+                                        <td><b style="color:red;">scNear</b><b style="color:green;">;</a></td>
+                                        <td>scNear is selected for ensuing values.</td>
                                     </tr>
                             </table>
                             <br />*<i>case insensitive</i><br />

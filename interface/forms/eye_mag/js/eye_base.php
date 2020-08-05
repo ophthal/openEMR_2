@@ -1784,19 +1784,19 @@ function update_READONLY() {
         //we are going to update the whole form
         //Imagine you are watching on your browser while the tech adds stuff in another room on another computer.
         //We are not ready to actively chart, just looking to see how far along our staff is...
-        //or maybe just looking ahead to see the who's being worked up in the next room?
+        //or maybe just looking ahead to see who's being worked up in the next room?
         //Either way, we are looking at a record that at present will be disabled/we cannot change...
         // yet it is updating every 10-15 seconds if another user is making changes.
     top.restoreSession();
     $.ajax({
-           type   : 'POST',
+           type     : 'POST',
            dataType : 'json',
            url      :  "../../forms/eye_mag/save.php?copy=READONLY",
-           data   : data,
+           data     : data,
            success  : function(result) {
            $.map(result, function(valhere, keyhere) {
                  if ($("#"+keyhere).val() != valhere) {
-                 $("#"+keyhere).val(valhere).css("background-color","#CCF");
+                    $("#"+keyhere).val(valhere).css("background-color","#CCF");
                  }
                  if (keyhere.match(/MOTILITY_/)) {
                  // Copy forward ductions and versions visually
@@ -1807,12 +1807,12 @@ function update_READONLY() {
                  $("[name='"+keyhere+"_4']").html('');
                  if (keyhere.match(/(_RS|_LS|_RI|_LI|_RRSO|_RRIO|_RLSO|_RLIO|_LRSO|_LRIO|_LLSO|_LLIO)/)) {
                  // Show a horizontal (minus) tag.
-                 hash_tag = '<i class="fa fa-minus"></i>';
+                  hash_tag = '<i class="fa fa-minus"></i>';
                  } else { //show vertical tag
-                 hash_tag = '<i class="fa fa-minus rotate-left"></i>';
+                  hash_tag = '<i class="fa fa-minus rotate-left"></i>';
                  }
                  for (index =1; index <= valhere; ++index) {
-                 $("#"+keyhere+"_"+index).html(hash_tag);
+                  $("#"+keyhere+"_"+index).html(hash_tag);
                  }
                  } else if (keyhere.match(/^(ODVF|OSVF)\d$/)) {
                  if (valhere =='1') {
@@ -1981,12 +1981,8 @@ function update_DOCS() {
                    code_400(); //the user does not have write privileges!
                    return;
                    }
-                   //TODO:  We should also update the Communication Engine for sending note
-                   // to reflect these people...
-                   // Currently we have to reload the page to get the new names we selected
-                   // to show up in the Communications Engine
-                    obj = JSON.parse(result);
-                    build_DOCS(obj);
+                   obj = JSON.parse(result);
+                   build_DOCS(obj);
     });
 }
 
@@ -2000,14 +1996,26 @@ function build_DOCS(DOCS) {
         $("#pcp_address").html(DOCS['pcp']['address']);
         $("#pcp_phone").html(DOCS['pcp']['phone']);
         $("#pcp_phonew2").html(DOCS['pcp']['phone2']);
-        $("#pcp_fax").html(DOCS['pcp']['fax_info']);
+        $("#pcp_fax").html(DOCS['pcp']['fax']+DOCS['pcp']['fax_info']);
+    } else {
+        $("#pcp_name").html('');
+        $("#pcp_address").html('');
+        $("#pcp_phone").html('');
+        $("#pcp_phonew2").html('');
+        $("#pcp_fax").html('');
     }
     if (DOCS['ref']) {
         $("#ref_name").html(DOCS['ref']['name']);
         $("#ref_address").html(DOCS['ref']['address']);
         $("#ref_phone").html(DOCS['ref']['phone']);
         $("#ref_phonew2").html(DOCS['ref']['phonew2']);
-        $("#ref_fax").html(DOCS['ref']['fax_info']);
+        $("#ref_fax").html(DOCS['ref']['fax']+DOCS['ref']['fax_info']);
+    } else {
+        $("#ref_name").html('');
+        $("#ref_address").html('');
+        $("#ref_phone").html('');
+        $("#ref_phonew2").html('');
+        $("#ref_fax").html('');
     }
 }
 
@@ -2015,7 +2023,7 @@ function build_DOCS(DOCS) {
  *      Function to update the patient's current pharmacy
  */
 
-function  update_Pharma() {
+function update_Pharma() {
     //$(#form_pharmacy_id) has changed value, update the patient_data field pharmacy_id
     var pharm = $("#form_pharmacy_id").val();
     var url = "../../forms/eye_mag/save.php?mode=update";
@@ -2206,7 +2214,7 @@ function show_by_setting() {
     } else {
         $("#tabs_left").removeClass('nodisplay');
     }
-show_left();
+    show_left();
     return true;
 }
 
@@ -2222,18 +2230,16 @@ $(function() {
                   check_exam_detail();
                   hide_DRAW();
                   hide_right();
-                //alert('Suggest a Code');
                   Suggest_visit_code();
                   show_QP_section('IMPPLAN','1');
-
 
                   //on checking TESTS, show modifiers and justifier fields
                   $(".TESTS").click(function() {
                     var test_id = this.id;
                     if  ($(this).is(':checked')) {
                       $("#"+test_id+"_justmods").removeClass('nodisplay');
-                        $("#"+test_id+"_modifier").val('59');
-//make vist_modifier 25 light up too...
+                      $("#"+test_id+"_modifier").val('59');
+                      //make vist_modifier 25 light up too...
                       $(this).parent().removeClass('lights_off').addClass('lights_on');
                     } else {
                       $("#"+test_id+"_justmods").addClass('nodisplay');
@@ -2245,7 +2251,9 @@ $(function() {
                   $('#form_PCP,#form_rDOC').change(function() {
                                                    update_DOCS();
                                                    });
-
+                  $("#form_pharmacy_id").change(function() {
+                        update_Pharma();
+                  });
                   $('#tooltips_status').html($('#PREFS_TOOLTIPS').val());
                   if ($("#PREFS_TOOLTIPS").val() == "<?php echo xla('Off'); ?>") {
                     $('[title]').each(function() {
@@ -2450,7 +2458,6 @@ $(function() {
                                                           //  At the end, we add return false so that the click on the link is not executed
                                                           return false;
                                                           });
-                  $("[id^='CONSTRUCTION_']").toggleClass('nodisplay');
                   $("input,textarea,text").css("background-color","#FFF8DC");
                   $("[id*=ODIOP],[id*=OSIOP]").each(function() { color_IOP(this); });
                   $("#IOPTIME").css("background-color","#FFFFFF");
@@ -3389,6 +3396,9 @@ $("body").on("click","[name^='old_canvas']", function() {
                                              $("#Visions_B").toggleClass('nodisplay');
                                              });
                   $("#EXAM_defaults").click(function() {
+                                            if (!confirm('Replace all exam findings with Default values?  Are you sure?')) {
+                                                return;
+                                            }
                                             <?php
                                             // This query is specific to the provider.
                                             $query  = "select seq from list_options where option_id=?";
